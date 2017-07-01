@@ -15,4 +15,10 @@ def index():
     template = jinja_env.get_template('home.html')
     return template.render()
 
+@app.route("/welcome", methods=['POST'])
+def welcome():
+    username = request.form['username']
+    template = jinja_env.get_template('welcome.html')
+    return template.render(name=username)
+
 app.run()
