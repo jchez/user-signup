@@ -38,9 +38,12 @@ def validate_info():
 
     if "@" not in email or "." not in email or email.count(".") > 1 or email.count("@") > 1 or " " in email or len(email) < 3 or len(email) > 20:
         email_error = "That's not a valid email"
+    
+    if email == "":
+        email_error = ""
 
     if not username_error and not password_error and not verify_error and not email_error:
-        return "hello"
+        return redirect('/welcome?username={0}'.format(username))
 
     else:
         template = jinja_env.get_template('home.html')
@@ -51,9 +54,9 @@ def validate_info():
             verify_error = verify_error,
             email_error = email_error)
 
-@app.route("/welcome", methods=['POST'])
+@app.route("/welcome")
 def welcome():
-    username = request.form['username']
+    username = request.args.get('username')
     template = jinja_env.get_template('welcome.html')
     return template.render(name=username)
 
